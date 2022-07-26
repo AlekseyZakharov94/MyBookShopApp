@@ -15,10 +15,11 @@ public class BookService {
     private JdbcTemplate jdbcTemplate;
 
     public List<Book> getBooksData() {
-        List<Book> books = jdbcTemplate.query("SELECT * FROM books", (ResultSet rs, int rowNumber) -> {
+        List<Book> books = jdbcTemplate.query("SELECT * FROM books " +
+                "INNER JOIN authors ON authors.id = books.authorId", (ResultSet rs, int rowNumber) -> {
            Book book = new Book();
            book.setId(rs.getInt("id"));
-           book.setAuthor(rs.getString("author"));
+           book.setAuthor(rs.getString("authorFullName"));
            book.setTitle(rs.getString("title"));
            book.setPriceOld(rs.getString("priceOld"));
            book.setPrice(rs.getString("price"));
